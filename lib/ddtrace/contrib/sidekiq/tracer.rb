@@ -20,7 +20,7 @@ module Datadog
         register_as :sidekiq
 
         option :enabled, default: true
-        option :sidekiq_service, default: 'sidekiq'
+        option :service_name, default: 'sidekiq'
         option :tracer, default: Datadog.tracer
         option :debug, default: false
         option :trace_agent_hostname, default: Writer::HOSTNAME
@@ -32,7 +32,7 @@ module Datadog
           base_config = Datadog.configuration[:sidekiq].merge(Datadog.configuration[:rails])
           user_config = base_config.merge(options)
           @tracer = user_config[:tracer]
-          @sidekiq_service = user_config[:sidekiq_service]
+          @sidekiq_service = user_config[:service_name]
 
           # set Tracer status
           @tracer.enabled = user_config[:enabled]
@@ -86,7 +86,7 @@ module Datadog
         end
 
         def sidekiq_service(resource)
-          worker_config(resource).fetch(:service, @sidekiq_service)
+          worker_config(resource).fetch(:service_name, @sidekiq_service)
         end
 
         def set_service_info(service)
