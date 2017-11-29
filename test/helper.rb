@@ -206,7 +206,8 @@ end
 # with the global one
 def reset_config
   Datadog.configure do |c|
-    c.use :rails, auto_instrument: true, auto_instrument_redis: true
+    c.use :rails
+    c.use :redis
   end
 
   config = { config: ::Rails.application.config }
